@@ -1,0 +1,56 @@
+spring:
+  profiles:
+      active: local
+  application:
+    name: DishService
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  flyway:
+    baseline-on-migrate: true
+    validate-on-migrate: true
+    clean-disabled: false
+    locations: classpath:db/migration
+    schemas: public
+    enabled: true
+    url: ${spring.datasource.url}
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+  graphql:
+    path: /graphql
+    graphiql:
+      enabled: true
+      path: /graphiql
+
+
+resilience4j:
+  retry:
+    instances:
+      healthCheck:
+        maxAttempts: 10
+        waitDuration: 100ms
+  circuitbreaker:
+    instances:
+      healthCheck:
+        slidingWindowSize: 50
+        failureRateThreshold: 80
+  ratelimiter:
+    instances:
+      healthCheck:
+        limitForPeriod: 1000
+        timeoutDuration: 1s
+  bulkhead:
+    instances:
+      healthCheck:
+        maxConcurrentCalls: 500
+        maxWaitDuration: 500ms
