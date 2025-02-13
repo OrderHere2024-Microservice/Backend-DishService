@@ -26,6 +26,12 @@ spring:
     url: ${spring.datasource.url}
     user: ${spring.datasource.username}
     password: ${spring.datasource.password}
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:7080/realms/orderhere
+
   graphql:
     path: /graphql
     graphiql:
@@ -54,3 +60,7 @@ resilience4j:
       healthCheck:
         maxConcurrentCalls: 500
         maxWaitDuration: 500ms
+
+storage:
+  bucketName: my-bucket
+  url: http://127.0.0.1:9000

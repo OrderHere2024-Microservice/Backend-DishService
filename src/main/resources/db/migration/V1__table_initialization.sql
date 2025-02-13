@@ -1,3 +1,11 @@
+CREATE TABLE category (
+                          category_id   serial PRIMARY KEY NOT NULL UNIQUE,
+                          restaurant_id integer            NOT NULL,
+                          category_name varchar(255)       NOT NULL UNIQUE,
+                          created_time  TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                          updated_time  TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE dish (
                       dish_id       serial PRIMARY KEY NOT NULL UNIQUE,
                       restaurant_id integer            NOT NULL,
@@ -10,14 +18,6 @@ CREATE TABLE dish (
                       availability  boolean            NOT NULL DEFAULT true,
                       created_time  TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
                       updated_time  TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE category (
-                          category_id   serial PRIMARY KEY NOT NULL UNIQUE,
-                          restaurant_id integer            NOT NULL,
-                          category_name varchar(255)       NOT NULL UNIQUE,
-                          created_time  TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                          updated_time  TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE ingredient (
