@@ -18,9 +18,6 @@ type Mutation {
     createLinkIngredientDish(postIngredientDTO: PostIngredientInput!): Int!
     deleteIngredientLink(deleteIngredientDTO: DeleteIngredientInput!): String!
     updateIngredient(updateIngredientDTO: UpdateIngredientInput!): Ingredient!
-
-    createDish(dishCreateDto: DishCreateInput!): Boolean
-    updateDish(dishUpdateDto: DishUpdateInput!): DishGetDto
     deleteDish(dishId: Int!): Boolean
 }
 
@@ -85,26 +82,4 @@ type DishGetDto {
     availability: Boolean
     categoryId: Int
     categoryName: String
-}
-
-input DishCreateInput {
-    dishName: String!
-    description: String!
-    price: BigDecimal!
-    imageUrl: String
-    imageFile: Upload
-    restaurantId: Int!
-    availability: Boolean!
-    categoryId: Int!
-}
-
-input DishUpdateInput {
-    dishId: Int!
-    dishName: String!
-    description: String!
-    price: BigDecimal!
-    imageUrl: String
-    imageFile: Upload
-    restaurantId: Int!
-    availability: Boolean!
 }

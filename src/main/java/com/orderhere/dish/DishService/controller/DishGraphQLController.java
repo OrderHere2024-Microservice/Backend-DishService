@@ -39,21 +39,6 @@ public class DishGraphQLController {
         );
     }
 
-    // Currently not using this method as Upload is not working for the scalar
-    @PreAuthorize("hasRole('sys_admin')")
-    @MutationMapping
-    public Boolean createDish(@Valid @Argument DishCreateDto dishCreateDto) {
-        dishService.createDish(dishCreateDto);
-        return true;
-    }
-
-    // Currently not using this method as Upload is not working for the scalar
-    @PreAuthorize("hasRole('sys_admin')")
-    @MutationMapping
-    public DishGetDto updateDish(@Valid @Argument DishUpdateDTO dishUpdateDto) {
-        return dishService.updateDish(dishUpdateDto);
-    }
-
     @PreAuthorize("hasRole('sys_admin')")
     @MutationMapping
     public Boolean deleteDish(@Argument Integer dishId) throws Exception {

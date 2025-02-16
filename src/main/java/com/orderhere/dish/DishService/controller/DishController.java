@@ -5,10 +5,13 @@ import com.orderhere.dish.DishService.dto.DishGetDto;
 import com.orderhere.dish.DishService.dto.DishUpdateDTO;
 import com.orderhere.dish.DishService.dto.PagingDto;
 import com.orderhere.dish.DishService.enums.DishSort;
+import com.orderhere.dish.DishService.model.Ingredient;
 import com.orderhere.dish.DishService.service.DishService;
+import com.orderhere.dish.DishService.service.IngredientService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,6 +28,7 @@ import static com.orderhere.dish.DishService.util.SortHelper.getSortOrder;
 @Validated
 public class DishController {
     private final DishService dishService;
+    private final IngredientService ingredientService;
 
     // still in use, will deprecate this when solving gql upload issue
     @PreAuthorize("hasRole('sys_admin')")
@@ -41,5 +45,10 @@ public class DishController {
     public DishGetDto updateDish(
             @Valid @ModelAttribute DishUpdateDTO dishUpdateDto) {
         return dishService.updateDish(dishUpdateDto);
+    }
+
+    @GetMapping
+    public Ingredient getIngredientById() {
+        return ingredientService.getIngredientById(1);
     }
 }

@@ -25,7 +25,7 @@ public class CategoryGraphQLController {
 
     @PreAuthorize("hasRole('sys_admin')")
     @MutationMapping
-    public CategoryGetDto createCategory(@Argument CategoryPostDto categoryPostDto) {
-        return categoryService.createCategory(categoryPostDto);
+    public CategoryGetDto createCategory(@Argument CategoryPostDto categoryPostDTO) {
+        return categoryService.createCategory(categoryPostDTO);
     }
 }

@@ -17,6 +17,8 @@ import java.time.ZonedDateTime;
 @DynamicUpdate
 @DynamicInsert
 @Table(name = "rating")
+@org.hibernate.annotations.Subselect("SELECT 1") // we don't use rating table to store ratings currently
+@org.hibernate.annotations.Synchronize({}) // so it is not created yet, we have to skip hibernate validation for now
 public class Rating {
 
   @Id
