@@ -6,6 +6,7 @@ import com.orderhere.dish.DishService.dto.DishGetDto;
 import com.orderhere.dish.DishService.dto.DishUpdateDTO;
 import com.orderhere.dish.DishService.dto.PagingDto;
 import com.orderhere.dish.DishService.enums.DishSort;
+import com.orderhere.dish.DishService.eventDto.DishDeletedEvent;
 import com.orderhere.dish.DishService.exception.ResourceNotFoundException;
 import com.orderhere.dish.DishService.mapper.DishMapper;
 import com.orderhere.dish.DishService.model.Dish;
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +34,7 @@ import java.util.List;
 public class DishService {
   private final DishRepository dishRepository;
   private final DishMapper dishMapper;
+  private final KafkaTemplate<String, DishDeletedEvent> kafkaTemplate;
 
   @Autowired
   private StorageService storageService;
@@ -117,5 +120,14 @@ public class DishService {
     // storageService.deleteFile(bucketName, dish.getImageUrl());
     dish.setIsDeleted(true);
     dishRepository.save(dish);
+
+    DishDeletedEvent dishDeletedEvent = new DishDeletedEvent(dish.getDishId(), dish.getDishName());
+
+    try {
+      kafkaTemplate.send("dish-deleted-topic", dishDeletedEvent).get();
+    } catch (Exception e) {
+      log.error("Error occurred while sending dish deleted event", e);
+      throw new Exception("Error occurred while sending dish deleted event");
+    }
   }
 }
